@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { get } from '../../lib/api';
-import { Vet } from '../../types';
+import { PetType } from '../../types';
 
-function VetsPage() {
-  const [vets, setVets] = useState<Vet[]>([]);
+function PetTypesPage() {
+  const [petTypes, setPetTypes] = useState<PetType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -12,10 +12,10 @@ function VetsPage() {
     setLoading(true);
     setError(null);
 
-    get<Vet[]>('/api/vets')
+    get<PetType[]>('/api/pettypes')
       .then((data) => {
         if (!cancelled) {
-          setVets(data);
+          setPetTypes(data);
         }
       })
       .catch((err: Error) => {
@@ -36,8 +36,8 @@ function VetsPage() {
 
   return (
     <section>
-      <h2>Veterinarians</h2>
-      {loading && <p>Loading veterinarians...</p>}
+      <h2>Pet Types</h2>
+      {loading && <p>Loading pet types...</p>}
       {error && (
         <div className="alert alert-danger" role="alert">
           {error}
@@ -48,20 +48,12 @@ function VetsPage() {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Specialties</th>
             </tr>
           </thead>
           <tbody>
-            {vets.map((vet) => (
-              <tr key={vet.id}>
-                <td>
-                  {vet.firstName} {vet.lastName}
-                </td>
-                <td>
-                  {vet.specialties.length > 0
-                    ? vet.specialties.map((specialty) => specialty.name).join(', ')
-                    : 'none'}
-                </td>
+            {petTypes.map((petType) => (
+              <tr key={petType.id}>
+                <td>{petType.name}</td>
               </tr>
             ))}
           </tbody>
@@ -71,4 +63,4 @@ function VetsPage() {
   );
 }
 
-export default VetsPage;
+export default PetTypesPage;

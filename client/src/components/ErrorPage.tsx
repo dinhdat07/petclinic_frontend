@@ -1,39 +1,54 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { get } from '../lib/api';
 
-interface IErrorPageState {
-  error?: {
-    status: string;
-    message: string;
-  };
+interface ApiErrorPayload {
+  status?: string;
+  message?: string;
 }
 
-export default class ErrorPage extends React.Component<void, IErrorPageState> {
-  constructor() {
-    super();
-    this.state = {};
-  }
+function ErrorPage() {
+  const [error, setError] = useState<ApiErrorPayload | null>(null);
 
-  componentDidMount() {
-    fetch('http://localhost:8080/api/oups')
-      .then(response => response.json())
-      .then(error => this.setState({error}));
-  }
+  useEffect(() => {
+    let cancelled = false;
 
-  render() {
-    const { error } = this.state;
+    get<ApiErrorPayload>('/api/oups')
+      .then((payload) => {
+        if (!cancelled) {
+          setError(payload);
+        }
+      })
+      .catch((err: Error) => {
+        if (!cancelled) {
+          setError({ message: err.message });
+        }
+      });
 
-    return <span>
-      <img src='/images/pets.png' />
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
+  return (
+    <section>
+      <img src="/images/pets.png" alt="Pets" />
       <h2>Something happened...</h2>
-      { error ?
-        <span>
-          <p><b>Status:</b> {error.status}</p>
-          <p><b>Message:</b> {error.message}</p>
-        </span>
-        :
-        <p><b>Unkown error</b></p>
-      }
-    </span>;
-  }
-};
+      {error ? (
+        <div>
+          {error.status && (
+            <p>
+              <strong>Status:</strong> {error.status}
+            </p>
+          )}
+          <p>
+            <strong>Message:</strong> {error.message ?? 'Unknown error'}
+          </p>
+        </div>
+      ) : (
+        <p>Loading error details...</p>
+      )}
+    </section>
+  );
+}
+
+export default ErrorPage;

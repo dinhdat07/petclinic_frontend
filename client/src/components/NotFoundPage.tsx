@@ -1,3 +1,10 @@
-import * as React from 'react';
+function NotFoundPage() {
+  return (
+    <section>
+      <h2>Page Not Found</h2>
+      <p>The page you are looking for does not exist.</p>
+    </section>
+  );
+}
 
-export default () => <h3>The requested page has not been found.</h3>;
+export default NotFoundPage;

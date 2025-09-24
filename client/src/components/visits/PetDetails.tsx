@@ -1,9 +1,12 @@
-import * as React from 'react';
+import { Owner, Pet } from '../../types';
 
-import { IOwner, IPet } from '../../types';
+interface PetDetailsProps {
+  owner: Owner;
+  pet: Pet;
+}
 
-export default ({owner, pet}: { owner: IOwner, pet: IPet }) => (
-  <table className='table table-striped'>
+const PetDetails = ({ owner, pet }: PetDetailsProps) => (
+  <table className="table table-striped">
     <thead>
       <tr>
         <th>Name</th>
@@ -17,8 +20,12 @@ export default ({owner, pet}: { owner: IOwner, pet: IPet }) => (
         <td>{pet.name}</td>
         <td>{pet.birthDate}</td>
         <td>{pet.type.name}</td>
-        <td>{owner.firstName} {owner.lastName}</td>
+        <td>
+          {owner.firstName} {owner.lastName}
+        </td>
       </tr>
     </tbody>
   </table>
 );
+
+export default PetDetails;

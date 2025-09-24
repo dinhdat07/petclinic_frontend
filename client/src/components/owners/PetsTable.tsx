@@ -1,10 +1,13 @@
-import * as React from 'react';
+import { Link } from 'react-router-dom';
+import { Owner, Pet } from '../../types';
 
-import { Link } from 'react-router';
-import { IOwner, IPet } from '../../types';
+interface VisitsTableProps {
+  ownerId: number;
+  pet: Pet;
+}
 
-const VisitsTable = ({ownerId, pet}: { ownerId: number, pet: IPet }) => (
-  <table className='table-condensed'>
+const VisitsTable = ({ ownerId, pet }: VisitsTableProps) => (
+  <table className="table-condensed">
     <thead>
       <tr>
         <th>Visit Date</th>
@@ -12,7 +15,7 @@ const VisitsTable = ({ownerId, pet}: { ownerId: number, pet: IPet }) => (
       </tr>
     </thead>
     <tbody>
-      {pet.visits.map(visit => (
+      {pet.visits.map((visit) => (
         <tr key={visit.id}>
           <td>{visit.date}</td>
           <td>{visit.description}</td>
@@ -30,15 +33,19 @@ const VisitsTable = ({ownerId, pet}: { ownerId: number, pet: IPet }) => (
   </table>
 );
 
-export default ({owner}: { owner: IOwner }) => (
+interface PetsTableProps {
+  owner: Owner;
+}
+
+const PetsTable = ({ owner }: PetsTableProps) => (
   <section>
     <h2>Pets and Visits</h2>
-    <table className='table table-striped'>
+    <table className="table table-striped">
       <tbody>
-        {owner.pets.map(pet => (
+        {owner.pets.map((pet) => (
           <tr key={pet.id}>
-            <td style={{ 'verticalAlign': 'top' }}>
-              <dl className='dl-horizontal'>
+            <td style={{ verticalAlign: 'top' }}>
+              <dl className="dl-horizontal">
                 <dt>Name</dt>
                 <dd>{pet.name}</dd>
                 <dt>Birth Date</dt>
@@ -47,7 +54,7 @@ export default ({owner}: { owner: IOwner }) => (
                 <dd>{pet.type.name}</dd>
               </dl>
             </td>
-            <td style={{ 'verticalAlign': 'top' }}>
+            <td style={{ verticalAlign: 'top' }}>
               <VisitsTable ownerId={owner.id} pet={pet} />
             </td>
           </tr>
@@ -56,3 +63,5 @@ export default ({owner}: { owner: IOwner }) => (
     </table>
   </section>
 );
+
+export default PetsTable;

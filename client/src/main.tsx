@@ -1,31 +1,21 @@
-// React and Hot Loader
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
 
-import { browserHistory as history } from 'react-router';
+import 'bootstrap/dist/css/bootstrap.css';
+import './styles/index.less';
 
-require('./styles/less/petclinic.less');
+const rootElement = document.getElementById('root');
 
-// The Application
-import Root from './Root';
-
-// Render Application
-const mountPoint = document.getElementById('mount');
-ReactDOM.render(
-  <AppContainer><Root history={history}/></AppContainer>,
-  mountPoint
-);
-
-declare var module: any;
-if (module.hot) {
-  module.hot.accept('./Root', () => {
-    const NextApp = require('./Root').default;
-    ReactDOM.render(
-      <AppContainer>
-        <NextApp history={history} />
-      </AppContainer>,
-      mountPoint
-    );
-  });
+if (!rootElement) {
+  throw new Error('Failed to find the root element');
 }
+
+ReactDOM.createRoot(rootElement).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+);

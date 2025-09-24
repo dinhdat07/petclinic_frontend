@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "module": "commonjs",
-    "noImplicitAny": false,
-    "preserveConstEnums": true,
-    "removeComments": true,
-    "target": "ES6",
-    "allowJs": true,
-    "outDir": "public/dist",
-    "sourceMap": true
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "types": ["vite/client", "vitest"]
   },
-  "exclude": [
-    "node_modules",
-    "typings/browser.d.ts",
-    "typings/browser",
-    "tests"
-  ]
+  "include": ["src"],
+  "references": []
 }

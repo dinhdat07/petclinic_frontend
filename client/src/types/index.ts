@@ -1,97 +1,70 @@
-import { IRouter } from 'react-router';
-
-// ------------------------------------ ROUTER ------------------------------------
-export interface IRouterContext {
-  router: IRouter;
-};
-
-// ------------------------------------ UTIL --------------------------------------
-export type IHttpMethod = 'POST' | 'PUT' | 'GET';
-
-
-// ------------------------------------ ERROR ------------------------------------
-export interface IFieldError {
+export interface FieldError {
   field: string;
   message: string;
 }
 
-interface IFieldErrors {
-  [index: string]: IFieldError;
-};
-
-export interface IError {
-  fieldErrors: IFieldErrors;
+export interface ApiErrorShape {
+  message?: string;
+  fieldErrors?: FieldError[];
 }
 
-
-// ------------------------------------ FORM --------------------------------------
-export interface IConstraint {
-  message: string;
-  validate: (value: any) => boolean;
-}
-
-export type IInputChangeHandler = (name: string, value: string, error: IFieldError) => void;
-
-export interface ISelectOption {
-  value: string|number;
-  name: string;
-};
-
-// ------------------------------------ MODEL .------------------------------------
-
-interface IBaseEntity {
+export interface BaseEntity {
   id: number;
-  isNew: boolean;
-};
+  isNew?: boolean;
+}
 
-interface INamedEntity extends IBaseEntity {
+export interface NamedEntity extends BaseEntity {
   name: string;
 }
 
-interface IPerson extends IBaseEntity {
+export interface Person extends BaseEntity {
   firstName: string;
   lastName: string;
 }
 
-export interface IVisit extends IBaseEntity {
-  date: Date;
+export interface Visit extends BaseEntity {
+  date: string;
   description: string;
-};
-
-export interface IPetType extends INamedEntity {
-};
-
-export type IPetTypeId = number;
-
-export interface IPet extends INamedEntity {
-  birthDate: Date;
-  type: IPetType;
-  visits: IVisit[];
-};
-
-// TODO
-export interface IEditablePet extends INamedEntity {
-  birthDate?: string;
-  typeId?: IPetTypeId;
 }
 
-export interface IPetRequest {
-  name: string;
-  birthDate?: string;
-  typeId: IPetTypeId;
+export interface PetType extends NamedEntity {}
+
+export type PetTypeId = number;
+
+export interface Pet extends NamedEntity {
+  birthDate: string;
+  type: PetType;
+  visits: Visit[];
 }
 
-export interface IOwner extends IPerson {
-
+export interface Owner extends Person {
   address: string;
   city: string;
   telephone: string;
-  pets: IPet[];
-};
+  pets: Pet[];
+}
 
-export interface ISpecialty extends INamedEntity {
-};
+export interface Specialty extends NamedEntity {}
 
-export interface IVet extends IPerson {
-  specialties: ISpecialty[];
-};
+export interface Vet extends Person {
+  specialties: Specialty[];
+}
+
+export interface OwnerFormValues {
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  telephone: string;
+}
+
+export interface PetFormValues {
+  name: string;
+  birthDate: string;
+  typeId: PetTypeId | '';
+}
+
+export interface VisitFormValues {
+  date: string;
+  description: string;
+}
